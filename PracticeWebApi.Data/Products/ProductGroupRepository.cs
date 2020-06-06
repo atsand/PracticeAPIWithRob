@@ -9,7 +9,7 @@ namespace PracticeWebApi.Data.Products
 {
     public class ProductGroupRepository : IProductGroupRepository
     {
-        private string _connectionString = "Data Source = Silver; Initial Catalog = PracticeCommerce; Integrated Security = True;";
+        private string _connectionString = "Data Source = DESKTOP-1RVNMQE\\SQLEXPRESS; Initial Catalog = PracticeCommerce; Integrated Security = True;";
         private string _insertStatement = "INSERT INTO ProductGroups (Id, Name) VALUES (@Id, @Name)";
         private string _deleteStatement = "DELETE FROM ProductGroups WHERE [Id] = @Id";
         private string _getAllGroups = "SELECT * FROM ProductGroups";

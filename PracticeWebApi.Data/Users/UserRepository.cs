@@ -9,7 +9,7 @@ namespace PracticeWebApi.Data.Users
 {
     public class UserRepository : IUserRepository
     {
-        private string _connectionString = "Data Source = Silver; Initial Catalog = PracticeCommerce; Integrated Security = True;";
+        private string _connectionString = "Data Source = DESKTOP-1RVNMQE\\SQLEXPRESS; Initial Catalog = PracticeCommerce; Integrated Security = True;";
         private string _insertUser =
             @"INSERT INTO Users (id, firstName, lastName, email, address, city, state, zip) VALUES " +
             "(@Id, @FirstName, @LastName, @Email, @Address, @City, @State, @Zip)";
