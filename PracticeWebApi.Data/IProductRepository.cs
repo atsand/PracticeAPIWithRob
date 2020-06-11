@@ -14,6 +14,11 @@ namespace PracticeWebApi.Data
         Task<ProductDataEntity> FindProductById(string productId);
 
         /// <summary>
+        /// Finds all products from the products table
+        /// </summary>
+        Task<IList<ProductDataEntity>> GetAllProducts();
+
+        /// <summary>
         /// Finds all products by <see cref="Product.GroupId"/> where <see cref="ProductDataEntity.IsActive"/> is true
         /// </summary>
         Task<IList<ProductDataEntity>> GetProductsByGroupId(string groupId);
