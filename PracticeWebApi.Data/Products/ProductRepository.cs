@@ -16,25 +16,30 @@ namespace PracticeWebApi.Data.Products
         //private string _connectionString = new ConnectionConfiguration().GetConnectionString();
         private string _connectionString = "Data Source = .\\Web19; Initial Catalog = PracticeCommerce; Integrated Security = True;";
         private string _insertProduct = @"
-                INSERT INTO Products
-                            (id, name, description, price, groupId, isActive) 
-                            VALUES (@Id, @Name, @Description, @Price, @GroupId, @IsActive)";
-        private string _selectAllProducts = @"SELECT * FROM Products";
-        private string _findProductById = @"SELECT * FROM Products WHERE [Id] = @Id";
-        private string _findProductsByProductGroupId = @"SELECT * FROM Products WHERE [GroupId] = @ProductId";
-        private string _updateProduct = @"UPDATE Products 
-                SET [name] = @Name
-                    [description] = @Description
-                    [price] = @Price
+                INSERT INTO Products (id, name, description, price, groupId, isActive) 
+                VALUES (@Id, @Name, @Description, @Price, @GroupId, 1)";
+        private string _selectAllProducts = @"
+                SELECT * FROM Products";
+        private string _findProductById = @"
+                SELECT * FROM Products
+                WHERE [Id] = @Id";
+        private string _findProductsByProductGroupId = @"
+                SELECT * FROM Products
+                WHERE [GroupId] = @ProductId";
+        private string _updateProduct = @"
+                UPDATE Products 
+                SET [name] = @Name,
+                    [description] = @Description,
+                    [price] = @Price,
                     [groupId] = @GroupId
                 WHERE [Id] = @Id";
         private string _activateProduct = @"
                 UPDATE Products
-                SET [isActive] = 1,
+                SET [isActive] = 1
                 WHERE [id] = @Id";
         private string _deactivateProductById = @"
                 UPDATE Products
-                SET [isActive] = 0,
+                SET [isActive] = 0
                 WHERE [id] = @Id";
 
         //why use async on all calls?

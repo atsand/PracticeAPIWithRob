@@ -124,5 +124,23 @@ namespace PracticeWebApi.Web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
             }
         }
+
+        [HttpGet("/products/all")]
+        public async Task<IActionResult> GetAllProducts()
+        {
+            try
+            {
+                var products = await _productService.GetAllProducts();
+                return Ok(products);
+            }
+            catch (ResourceNotFoundException exception)
+            {
+                return NotFound(exception.Message);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+        }
     }
 }

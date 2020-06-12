@@ -14,10 +14,15 @@ namespace PracticeWebApi.Services
         Task<Product> FindProductById(string productId);
 
         /// <summary>
-        /// Finds all products by <see cref="Product.GroupId"/> where <see cref="Product.IsActive"/> is true
+        /// Finds all products by <see cref="Product.GroupId"/> despite <see cref="Product.IsActive"/> being true or false
         /// </summary>
         Task<IList<Product>> GetProductsByGroupId(string groupId);
         Task UpdateProduct(Product product);
+
+        /// <summary>
+        /// This will return list of all <see cref="Product"/> despite <see cref="Product.IsActive"/> being true or false
+        /// </summary>
+        Task<IList<Product>> GetAllProducts();
 
         /// <summary>
         /// This method won't actually delete but set <see cref="Product.IsActive"/> to false

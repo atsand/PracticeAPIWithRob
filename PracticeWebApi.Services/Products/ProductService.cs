@@ -54,6 +54,15 @@ namespace PracticeWebApi.Services.Products
             return product;
         }
 
+        //added to allow getting all products
+        public async Task<IList<Product>> GetAllProducts()
+        {
+            var productDataEntities = await _productRepository.GetAllProducts();
+            var products = productDataEntities.Select(p => _mapper.MapToBase(p));
+
+            return products.ToList();
+        }
+
         public async Task<IList<Product>> GetProductsByGroupId(string groupId)
         {
             if (string.IsNullOrWhiteSpace(groupId)) throw new ArgumentNullException(nameof(groupId));

@@ -33,7 +33,7 @@ namespace PracticeWebApi
             // change repo here
             services.AddSingleton<IProductGroupRepository, ProductGroupRepository>();
             services.AddSingleton<IUserRepository, UserRepository>();
-            services.AddSingleton<IProductRepository, FakeProductRepository>();
+            services.AddSingleton<IProductRepository, ProductRepository>();
             services.AddSingleton<IMapper<User, UserDataEntity>, UserMapper>();
             services.AddSingleton<IMapper<ProductGroup, ProductGroupDataEntity>, ProductGroupMapper>();
             services.AddSingleton<IMapper<Product, ProductDataEntity>, ProductMapper>();
