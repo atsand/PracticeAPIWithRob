@@ -52,6 +52,11 @@ namespace PracticeWebApi.Data.Products
             return Task.FromResult(product);
         }
 
+        public Task<IList<ProductDataEntity>> GetAllProducts()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Task<IList<ProductDataEntity>> GetProductsByGroupId(string groupId)
         {
             IList<ProductDataEntity> products = _products.Where(p => p.GroupId == groupId && p.IsActive).ToList();
