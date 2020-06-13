@@ -9,6 +9,7 @@ using PracticeWebApi.Data;
 using PracticeWebApi.Data.Products;
 using PracticeWebApi.Data.Users;
 using PracticeWebApi.Services;
+using PracticeWebApi.Services.Orders;
 using PracticeWebApi.Services.Products;
 using PracticeWebApi.Services.Users;
 
@@ -32,6 +33,7 @@ namespace PracticeWebApi
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IProductGroupService, ProductGroupService>();
             services.AddSingleton<IProductService, ProductService>();
+            services.AddSingleton<IOrderService, OrderService>();
 
             // change repo here
             services.AddSingleton<IProductGroupRepository, ProductGroupRepository>();
