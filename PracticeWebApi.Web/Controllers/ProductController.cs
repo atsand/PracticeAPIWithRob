@@ -135,6 +135,8 @@ namespace PracticeWebApi.Web.Controllers
             }
             catch (ResourceNotFoundException exception)
             {
+                //return an empty list instead of 404
+                //give message to say no products found
                 return NotFound(exception.Message);
             }
             catch (Exception exception)

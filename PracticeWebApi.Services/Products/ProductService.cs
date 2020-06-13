@@ -31,10 +31,9 @@ namespace PracticeWebApi.Services.Products
             if (product is null) throw new ArgumentNullException(nameof(product));
 
             product.Id = Guid.NewGuid().ToString();
+            product.IsActive = true;
 
-            await _productRepository.AddProduct(_mapper.MapToDataEntity(product));
-
-            return product;
+            return _mapper.MapToBase(await _productRepository.AddProduct(_mapper.MapToDataEntity(product)));
         }
 
         public async Task DeactiveProduct(string productId)

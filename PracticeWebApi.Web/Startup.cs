@@ -26,6 +26,9 @@ namespace PracticeWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //var databaseConfiguration = new DatabaseConfiguration();
+            //Configuration.GetSection("DatabaseConfiguration").Bind(databaseConfiguration);
+            //services.AddSingleton(databaseConfiguration);
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IProductGroupService, ProductGroupService>();
             services.AddSingleton<IProductService, ProductService>();
