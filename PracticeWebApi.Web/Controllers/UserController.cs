@@ -17,6 +17,7 @@ namespace PracticeWebApi.Web.Controllers
             _userService = userService;
         }
 
+        
         [HttpPost("/user")]
         public async Task<IActionResult> AddUser([FromBody]User user)
         {
@@ -27,6 +28,7 @@ namespace PracticeWebApi.Web.Controllers
             }
             catch(DuplicateResourceException exception)
             {
+                //What type of exception should be thrown here to give the inner message?
                 return BadRequest(exception.Message);
             }
             catch(Exception exception)

@@ -13,10 +13,12 @@ using PracticeWebApi.Services.Orders;
 using PracticeWebApi.Services.Products;
 using PracticeWebApi.Services.Users;
 
+
 namespace PracticeWebApi
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -44,7 +46,23 @@ namespace PracticeWebApi
             services.AddSingleton<IMapper<ProductGroup, ProductGroupDataEntity>, ProductGroupMapper>();
             services.AddSingleton<IMapper<Product, ProductDataEntity>, ProductMapper>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //add cors policy to allow cross site requests
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins, builder =>
+                 {
+                     builder
+                         .AllowAnyHeader()
+                         .AllowAnyMethod()
+                         .AllowAnyOrigin()
+                         .SetIsOriginAllowed((host) => true);
+                         //.AllowCredentials();
+                 });
+            });
+            //services.AddMvc();
+            services.AddControllers();
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,9 +76,20 @@ namespace PracticeWebApi
             {
                 app.UseHsts();
             }
+            //add cors policy
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseStaticFiles();
+            app.UseRouting();
+            //app.UseCorsMiddleware();
+            app.UseAuthorization();
+            app.UseAuthentication();
+            //app.UseMvc();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
