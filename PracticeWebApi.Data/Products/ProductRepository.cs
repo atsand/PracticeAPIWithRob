@@ -61,7 +61,7 @@ namespace PracticeWebApi.Data.Products
                 var products = await GetAllProducts();
                 if (products.Any(existingProduct => existingProduct.Id == product.Id || existingProduct.Name == product.Name))
                 {
-                    throw new DuplicateResourceException($"A product already exists with Id {product.Id} or Email {product.Name}");
+                    throw new DuplicateResourceException($"A product already exists with Id {product.Id} or Name {product.Name}");
                 }
                 await connection.ExecuteAsync(_insertProduct, product);
                 return await Task.FromResult(product);
@@ -83,7 +83,7 @@ namespace PracticeWebApi.Data.Products
                 var results = await connection.QueryAsync<ProductDataEntity>(_findProductById, new { Id = productId });
 
                 if (!results.Any()) throw new ResourceNotFoundException($"No product found with id {productId}");
-                if (results.Count() > 1) throw new DuplicateResourceException($"Multiple users found with id {productId}");
+                if (results.Count() > 1) throw new DuplicateResourceException($"Multiple products found with id {productId}");
 
                 return results.Single();
             }
