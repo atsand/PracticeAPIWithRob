@@ -9,7 +9,8 @@ namespace PracticeWebApi.Data.Users
 {
     public class UserRepository : IUserRepository
     {
-        private string _connectionString = "Data Source = .\\Web19; Initial Catalog = PracticeCommerce; Integrated Security = True;";
+        private readonly DatabaseConfiguration _databaseConfiguration;
+
         private string _insertUser =
             @"INSERT INTO Users (id, firstName, lastName, email, address, city, state, zip) VALUES " +
             "(@Id, @FirstName, @LastName, @Email, @Address, @City, @State, @Zip)";
@@ -27,9 +28,14 @@ namespace PracticeWebApi.Data.Users
 	              [zip] = @Zip
             WHERE [Id] = @Id";
 
+        public UserRepository(DatabaseConfiguration databaseConfiguration)
+        {
+            _databaseConfiguration = databaseConfiguration;
+        }
+
         public async Task UpdateUser(UserDataEntity userDataEntity)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_databaseConfiguration.ConnectionString))
             {
                 await FindUserById(userDataEntity.Id);
                 await connection.ExecuteAsync(_updateUser, userDataEntity);
@@ -38,7 +44,7 @@ namespace PracticeWebApi.Data.Users
 
         public async Task DeleteUser(string id)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_databaseConfiguration.ConnectionString))
             {
                 await FindUserById(id);
                 await connection.ExecuteAsync(_deleteUser, new { TunaFish = id });
@@ -47,7 +53,7 @@ namespace PracticeWebApi.Data.Users
 
         public async Task<UserDataEntity> FindUserById(string id)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_databaseConfiguration.ConnectionString))
             {
                 var results = await connection.QueryAsync<UserDataEntity>(_findUserById, new { Apples = id });
 
@@ -60,7 +66,7 @@ namespace PracticeWebApi.Data.Users
 
         public async Task<IList<UserDataEntity>> GetAllUsers()
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_databaseConfiguration.ConnectionString))
             {
                 return (await connection.QueryAsync<UserDataEntity>(_selectAllUsers)).ToList();
             }
@@ -68,7 +74,7 @@ namespace PracticeWebApi.Data.Users
 
         public async Task AddUser(UserDataEntity userDataEntity)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_databaseConfiguration.ConnectionString))
             {
                 var existingUsers = await GetAllUsers();
                 if (existingUsers.Any(user => user.Id == userDataEntity.Id || user.Email == userDataEntity.Email))

@@ -4,8 +4,9 @@ using System.Text;
 
 namespace PracticeWebApi.Data
 {
-    class DatabaseConfiguration
+    public class DatabaseConfiguration
     {
         public string ConnectionString { get; set; }
+        public string RepositoryType { get; set; }
     }
 }

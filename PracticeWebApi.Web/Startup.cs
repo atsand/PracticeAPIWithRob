@@ -9,7 +9,6 @@ using PracticeWebApi.Data;
 using PracticeWebApi.Data.Products;
 using PracticeWebApi.Data.Users;
 using PracticeWebApi.Services;
-using PracticeWebApi.Services.Orders;
 using PracticeWebApi.Services.Products;
 using PracticeWebApi.Services.Users;
 
@@ -29,21 +28,39 @@ namespace PracticeWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //var databaseConfiguration = new DatabaseConfiguration();
-            //Configuration.GetSection("DatabaseConfiguration").Bind(databaseConfiguration);
-            //services.AddSingleton(databaseConfiguration);
-            services.AddSingleton<IUserService, UserService>();
-            services.AddSingleton<IProductGroupService, ProductGroupService>();
-            services.AddSingleton<IProductService, ProductService>();
-            services.AddSingleton<IOrderService, OrderService>();
+            //config
+            var databaseConfiguration = new DatabaseConfiguration();
+            Configuration.GetSection("DatabaseConfiguration").Bind(databaseConfiguration);
+            services.AddSingleton(databaseConfiguration);
 
-            // change repo here
-            services.AddSingleton<IProductGroupRepository, ProductGroupRepository>();
+            // repositories - adding flag for using InMemory or not
+            switch (databaseConfiguration.RepositoryType)
+            {
+                case "InMemory":
+                    services.AddSingleton<IUserRepository, FakeUserRepository>();
+                    services.AddSingleton<IProductGroupRepository, FakeProductGroupRepository>();
+                    services.AddSingleton<IProductRepository, FakeProductRepository>();
+                    break;
+                default:
+                    services.AddSingleton<IUserRepository, UserRepository>();
+                    services.AddSingleton<IProductGroupRepository, ProductGroupRepository>();
+                    services.AddSingleton<IProductRepository, ProductRepository>();
+                    break;
+            }
+
+            //users
+            services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IUserRepository, UserRepository>();
-            //update from fake repo
-            services.AddSingleton<IProductRepository, ProductRepository>();
             services.AddSingleton<IMapper<User, UserDataEntity>, UserMapper>();
+
+            //product groups
+            services.AddSingleton<IProductGroupService, ProductGroupService>();
+            services.AddSingleton<IProductGroupRepository, ProductGroupRepository>();
             services.AddSingleton<IMapper<ProductGroup, ProductGroupDataEntity>, ProductGroupMapper>();
+
+            //products
+            services.AddSingleton<IProductService, ProductService>();
+            services.AddSingleton<IProductRepository, ProductRepository>();
             services.AddSingleton<IMapper<Product, ProductDataEntity>, ProductMapper>();
 
             //add cors policy to allow cross site requests
@@ -56,10 +73,8 @@ namespace PracticeWebApi
                          .AllowAnyMethod()
                          .AllowAnyOrigin()
                          .SetIsOriginAllowed((host) => true);
-                         //.AllowCredentials();
                  });
             });
-            //services.AddMvc();
             services.AddControllers();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
@@ -78,14 +93,11 @@ namespace PracticeWebApi
             }
             //add cors policy
             app.UseCors(MyAllowSpecificOrigins);
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-            //app.UseCorsMiddleware();
             app.UseAuthorization();
             app.UseAuthentication();
-            //app.UseMvc();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
