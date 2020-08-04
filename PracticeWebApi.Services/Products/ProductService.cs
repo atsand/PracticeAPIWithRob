@@ -31,7 +31,7 @@ namespace PracticeWebApi.Services.Products
             if (product is null) throw new ArgumentNullException(nameof(product));
 
             product.Id = Guid.NewGuid().ToString();
-            product.IsActive = true;
+            product.IsActive = false;
 
             return _mapper.MapToBase(await _productRepository.AddProduct(_mapper.MapToDataEntity(product)));
         }
