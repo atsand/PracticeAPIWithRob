@@ -12,14 +12,15 @@ namespace PracticeWebApi.Data.Users
         private readonly DatabaseConfiguration _databaseConfiguration;
 
         private string _insertUser =
-            @"INSERT INTO Users (id, firstName, lastName, email, address, city, state, zip) VALUES " +
-            "(@Id, @FirstName, @LastName, @Email, @Address, @City, @State, @Zip)";
+            @"INSERT INTO Users (id, firstName, middleName, lastName, email, address, city, state, zip) VALUES " +
+            "(@Id, @FirstName, @MiddleName, @LastName, @Email, @Address, @City, @State, @Zip)";
         private string _selectAllUsers = "SELECT * FROM Users";
         private string _findUserById = "SELECT * FROM Users WHERE [Id] = @Apples";
         private string _deleteUser = "DELETE FROM Users WHERE [Id] = @TunaFish";
         private string _updateUser = @"  
             UPDATE Users
               SET [firstName] = @FirstName,
+                  [lastName] = @MiddleName,
 	              [lastName] = @LastName,
 	              [email] = @Email,
 	              [address] = @Address,

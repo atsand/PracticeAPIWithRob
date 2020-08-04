@@ -13,6 +13,7 @@ namespace PracticeWebApi.Services.Users
             Name = new Name
             {
                 First = dataEntity.FirstName,
+                Middle = dataEntity.MiddleName,
                 Last = dataEntity.LastName
             },
             Address = new Address
@@ -29,6 +30,7 @@ namespace PracticeWebApi.Services.Users
             Id = user.Id,
             Email = user.Email,
             FirstName = user.Name.First,
+            MiddleName = user.Name.Middle,
             LastName = user.Name.Last,
             Address = user.Address.Street,
             City = user.Address.City,
